@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	require_once("connection.php");
-	$query1 = "select ac.img,p.model,p.price,p.pid from accessories AS ac inner join product AS p on ac.pid=p.pid";
+	$query1 = "select ac.img,p.model,p.price from accesories AS ac inner join product AS p on ac.pid=p.PID";
 	$data1 = mysqli_query($con, $query1); 
 ?>
 <!DOCTYPE html>
@@ -31,28 +31,28 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link"  href="admin_homepage.php">Home</a>
+                        <a class="nav-link"  href="admin_homepage.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"  href="admin_iphone.php">iPhone</a>
+                        <a class="nav-link"  href="admin_iphone.html">iPhone</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"  href="admin_macbook.php">MacBook</a>
+                        <a class="nav-link"  href="admin_macbook.html">MacBook</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"  href="admin_ipad.php">iPad</a>
+                        <a class="nav-link"  href="admin_ipad.html">iPad</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"  href="admin_watch.php">Watch</a>
+                        <a class="nav-link"  href="admin_watch.html">Watch</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"  href="admin_airpods.php">AirPods</a>
+                        <a class="nav-link"  href="admin_airpods.html">AirPods</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"  href="admin_accessories.php" style="color: gray;">Accessories</a>
+                        <a class="nav-link"  href="admin_accessories.html" style="color: gray;">Accessories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"  href="admin_panel.php">Admin</a>
+                        <a class="nav-link"  href="admin_panel.html">Admin</a>
                     </li>
                     <li class="nav-item">
                         <form method="post">
@@ -72,34 +72,34 @@
 									$watch="watch";
 									$accessories="accessories";
 									if($device === $iphone){
-										header("Location: admin_iphone.php");
+										header("Location: iphone.php");
 										die;
 									}
 									elseif($device === $macbook){
-										header("Location: admin_macbook.php");
+										header("Location: macbook.php");
 										die;
 									}
 									elseif($device === $ipad){
-										header("Location: admin_ipad.php");
+										header("Location: ipad.php");
 										die;
 									}
 									elseif($device === $airpods){
-										header("Location: admin_airpods.php");
+										header("Location: airpods.php");
 										die;
 									}
 									elseif($device === $watch){
-										header("Location: admin_watch.php");
+										header("Location: watch.php");
 										die;
 									}
 									elseif($device === $accessories){
-										header("Location: admin_accessories.php");
+										header("Location: accessories.php");
 										die;
 									}
 								}	
 							?>
                       </li>
                       <li class="nav-item">
-                        <a href = "cart-viewer.php"><i class="far fa-shopping-bag"></i></a>
+                        <a href = "cart-viewer.html"><i class="far fa-shopping-bag"></i></a>
                       </li>
                 </ul>
             </div>
@@ -109,7 +109,7 @@
     <div class="categories">
         <h2 class="title">Accessories</h2>
         <div class="small-container">
-             <div class="row">
+            <div class="row">
 			<?php
 				if(mysqli_num_rows($data1)>0){
 					while($result = mysqli_fetch_array($data1)){?>
@@ -121,14 +121,13 @@
                     </div>
                     <h4 class="pName"><?php echo $result[1]; ?></h4>
                     <p>৳ <?php echo $result[2]; ?>/-</p>
-					<p>Product ID: <?php echo $result[3];?></p>
 					<?php
 					if (isset($_POST['delete'])){
 						$pid=$_POST['pid'];
-						$del="DELETE FROM `accessories` WHERE pid='$pid'";
+						$del="DELETE FROM `iphonex` WHERE pid='$pid'";
 					
 						mysqli_query($con,$del);
-						header("Location: admin_accessories.php");
+						header("Location: admin_iphone.php");
 						die;
 				}
 				?>
@@ -136,31 +135,19 @@
 					if (isset($_POST['modify'])){
 						$pid=$_POST['pid'];
 						$price=$_POST['price'];
-						$del="UPDATE `product` SET `price`='$price' WHERE pid='$pid'";
-						
+						$del=" UPDATE `productx` SET `price`='$price' WHERE pid='$pid' ";
+					
 						mysqli_query($con,$del);
-						header("Location: admin_accessories.php");
+						header("Location: admin_iphone.php");
 						die;
 				}
-				?>	 
+				?>
 					<form method="post">
-					<div class="txtb">
-					<input id="text" type="number" name="pid" class="cartbtn"  placeholder="Product ID" >
-					<span data-placeholder="Product ID"></span>
-					</div>
-					<br>
-					<div class="txtb">
-					<input id="text" type="number" name="price" class="cartbtn" placeholder="New Price" >
-					<span data-placeholder="Price"></span>
-					</div>
-					<br>
-                    <input id="button" type="submit" class="signbtn" name="modify" value="Modify"> <br>
-					<input id="button" type="submit" class="modbtn" name="delete" value="Delete">
+                    <input type="number" class="cartbtn" name="pid" value="" placeholder="New Price"> <br>
+                    <input type="number" class="cartbtn" name="price" value="" placeholder="Product ID"> <br>
+                    <input type="submit" class="signbtn" value="Modify"> <br>
+                    <input type="submit" class="modbtn" value="Delete">
 					</form>
-				
-					</div>
-					
-					
                 </div>
 				 <?php
 			
@@ -171,7 +158,7 @@
             </div>
             <br>
             <center>
-                <a href="accessories_insert.php" style="color: rgb(100, 100, 100); font-size: 30px;"><b>ADD PRODUCT</b></a>
+                <a href="accessories_insert.html" style="color: rgb(100, 100, 100); font-size: 30px;"><b>ADD PRODUCT</b></a>
             </center>
         </div>
     </div>
@@ -189,6 +176,9 @@
                     <a href="https://www.facebook.com/"><img src="image/—Pngtree—facebook white icon_3570425.png" alt="" width="100"></a>
                     <a href="https://www.instagram.com/"><img src="image/logo-instagram-png-41284.png" alt="" width="70"></a>
                     <a href="https://www.twitter.com/"><img src="image/twitter-512.png" alt="" width="80"></i></a>
+                </center>
+                <center>
+                    <div><img src="image/visa-logo-png-2028.png"alt="" width="200"></div>
                 </center>
 
                 <h5 class="pb-2">Contact Us</h5>
